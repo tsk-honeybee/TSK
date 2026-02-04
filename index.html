@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TSK | Portfolio</title>
+    <meta
+      name="description"
+      content="TSK (Topseongkim) - Composer, Arranger"
+    />
+    <meta property="og:title" content="TSK Portfolio" />
+    <meta
+      property="og:description"
+      content="TSK Works"
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-haze haze-1"></div>
+    <div class="bg-haze haze-2"></div>
+
+    <main class="layout">
+      <header class="hero">
+        <img
+          class="avatar"
+          src="assets/profile.jpg"
+          alt="TSK profile"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="hero-text">
+          <h1>TSK</h1>
+          <p class="subtitle">MAKES MUSIC</p>
+          <a class="email" href="mailto:kimtopseong@gmail.com">kimtopseong@gmail.com</a>
+          <div class="icon-only-row hero-icons">
+            <a class="icon-only-link" href="https://x.com/tsk_honeybee" target="_blank" rel="noreferrer" aria-label="X">
+              <img src="https://cdn.simpleicons.org/x/ffffff" alt="" />
+            </a>
+            <a class="icon-only-link" href="https://www.instagram.com/tsk_honeybee/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="" />
+            </a>
+            <a class="icon-only-link" href="https://www.youtube.com/channel/UCv5Q-5OGia7zHvulCC9gNqg" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="" />
+            </a>
+            <a class="icon-only-link" href="https://topseongkim.gumroad.com/" target="_blank" rel="noreferrer" aria-label="Gumroad">
+              <img src="https://cdn.simpleicons.org/gumroad/ffffff" alt="" />
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <section class="nav-panel">
+        <p class="nav-title">Portfolio</p>
+        <div class="menu-list" role="tablist" aria-label="Portfolio Sections">
+          <button class="menu-btn" data-section="works" type="button">Works</button>
+          <button class="menu-btn" data-section="compilation" type="button">Works (Doujin)</button>
+          <button class="menu-btn" data-section="discography" type="button">Discography</button>
+        </div>
+      </section>
+
+      <nav class="social-links" aria-label="External Links">
+        <div class="playlist-section">
+          <p class="playlist-title">Playlist</p>
+          <div class="playlist-links">
+            <a class="icon-link" href="https://open.spotify.com/playlist/5SFQrN1b1Zo4xf7qj3XpR2?si=6d80a471884d4071" target="_blank" rel="noreferrer">
+              <img src="https://cdn.simpleicons.org/spotify/ffffff" alt="" />
+              <span>Works</span>
+            </a>
+            <a class="icon-link" href="https://open.spotify.com/playlist/7tRy6l9J58Yn8CBKnDfHsf?si=de949b4577144884" target="_blank" rel="noreferrer">
+              <img src="https://cdn.simpleicons.org/spotify/ffffff" alt="" />
+              <span>Vocal Engineering</span>
+            </a>
+            <a class="icon-link" href="https://open.spotify.com/playlist/6BKOt9q6zbDGoeuyAYG1Xa?si=b8ab32fe5dda453e" target="_blank" rel="noreferrer">
+              <img src="https://cdn.simpleicons.org/spotify/ffffff" alt="" />
+              <span>Discography</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </main>
+
+    <section class="overlay" id="modal-overlay" hidden>
+      <div class="overlay-backdrop" id="overlay-backdrop"></div>
+      <article class="glass modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <header class="modal-head">
+          <h2 id="modal-title"></h2>
+          <button class="close-btn" id="modal-close" type="button" aria-label="닫기">×</button>
+        </header>
+        <div class="modal-body" id="modal-body"></div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <p>© TSK</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
