@@ -1,7 +1,7 @@
 :root {
-  --bg-1: #121314;
-  --bg-2: #1a1c1f;
-  --bg-3: #202329;
+  --bg-1: #0b0c0d;
+  --bg-2: #111316;
+  --bg-3: #171a1f;
   --text: #f1f2f4;
   --muted: #c2c6ce;
   --glass: rgba(255, 255, 255, 0.08);
@@ -30,14 +30,17 @@ body {
 }
 
 @supports (-webkit-touch-callout: none) {
-  html,
-  body {
-    background-color: var(--bg-1);
+  html {
+    background:
+      radial-gradient(1200px 700px at 20% 10%, #2a2d31 0%, transparent 60%),
+      radial-gradient(900px 580px at 84% 8%, #31343a 0%, transparent 58%),
+      linear-gradient(150deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
   }
 
   body {
-    min-height: 100svh;
+    min-height: 100dvh;
     min-height: -webkit-fill-available;
+    overscroll-behavior-y: none;
   }
 }
 
@@ -54,14 +57,14 @@ button {
   filter: blur(clamp(82px, 11vw, 320px));
   pointer-events: none;
   z-index: 0;
-  opacity: 0.22;
+  opacity: 0.14;
   animation: float 12s ease-in-out infinite;
 }
 
 .haze-1 {
   width: clamp(190px, 30vw, 700px);
   height: clamp(190px, 30vw, 700px);
-  background: #dfe2e6;
+  background: #9aa1ab;
   top: 8%;
   left: 7%;
 }
@@ -69,7 +72,7 @@ button {
 .haze-2 {
   width: clamp(240px, 38vw, 900px);
   height: clamp(240px, 38vw, 900px);
-  background: #c6cad0;
+  background: #7f8793;
   bottom: 10%;
   right: 4%;
   animation-delay: 2s;
