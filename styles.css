@@ -64,7 +64,7 @@ button {
 .layout {
   position: relative;
   z-index: 1;
-  width: min(980px, calc(100% - 30px));
+  width: min(350px, calc(100% - 30px));
   margin: 48px auto 0;
   display: grid;
   gap: 16px;
@@ -266,19 +266,72 @@ h1 {
 }
 
 .modal {
+  --modal-head-offset: 64px;
   position: relative;
-  width: min(940px, 100%);
-  max-height: min(82vh, 900px);
-  display: grid;
-  grid-template-rows: auto 1fr;
+  width: min(720px, 100%);
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  box-shadow:
+    var(--shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.34);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.modal::before {
+  content: "";
+  position: absolute;
+  top: var(--modal-head-offset);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(150deg, var(--glass-strong), var(--glass));
+  backdrop-filter: blur(18px) saturate(110%);
+  -webkit-backdrop-filter: blur(18px) saturate(110%);
+  pointer-events: none;
+}
+
+.modal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0.14) 38%,
+    rgba(18, 21, 28, 0.56) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .modal-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  min-height: 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 16px 10px;
-  border-bottom: 1px solid var(--line);
+  background: rgba(18, 20, 24, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px) saturate(120%) brightness(90%);
+  border-bottom: none;
 }
 
 .modal-head h2 {
@@ -290,7 +343,7 @@ h1 {
   width: 34px;
   height: 34px;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  border: none;
   background: rgba(255, 255, 255, 0.08);
   color: var(--text);
   font-size: 1.28rem;
@@ -299,8 +352,45 @@ h1 {
 }
 
 .modal-body {
+  position: relative;
+  z-index: 1;
   overflow: auto;
-  padding: 14px 16px 18px;
+  max-height: min(82vh, 900px);
+  padding: calc(var(--modal-head-offset) + 14px) 24px 18px 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.modal-scrollbar {
+  position: absolute;
+  top: var(--modal-head-offset);
+  right: 6px;
+  bottom: 10px;
+  width: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 6;
+}
+
+.modal-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 36px;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.44);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+  cursor: grab;
+}
+
+.modal-scrollbar-thumb:active {
+  cursor: grabbing;
 }
 
 .timeline {

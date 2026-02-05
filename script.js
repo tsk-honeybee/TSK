@@ -126,7 +126,12 @@ const backdrop = document.getElementById("overlay-backdrop");
 const closeBtn = document.getElementById("modal-close");
 const modalTitle = document.getElementById("modal-title");
 const modalBody = document.getElementById("modal-body");
+const modalScrollbar = document.getElementById("modal-scrollbar");
+const modalScrollbarThumb = document.getElementById("modal-scrollbar-thumb");
 const menuButtons = Array.from(document.querySelectorAll(".menu-btn"));
+let scrollbarThumbHeight = 36;
+let draggingScrollbarThumb = false;
+let dragOffsetY = 0;
 
 function escapeHtml(text) {
   return text
@@ -190,21 +195,58 @@ function setActiveButton(sectionKey) {
   });
 }
 
+function resetModalScroll() {
+  modalBody.scrollTop = 0;
+  modalScrollbarThumb.style.transform = "translateY(0)";
+}
+
+function syncModalScrollbar() {
+  const viewHeight = modalBody.clientHeight;
+  const contentHeight = modalBody.scrollHeight;
+  const canScroll = contentHeight - viewHeight > 1;
+
+  modalScrollbar.hidden = !canScroll;
+  if (!canScroll) return;
+
+  const trackHeight = modalScrollbar.clientHeight;
+  scrollbarThumbHeight = Math.max(36, (viewHeight / contentHeight) * trackHeight);
+  const maxThumbTop = Math.max(0, trackHeight - scrollbarThumbHeight);
+  const maxScrollTop = Math.max(1, contentHeight - viewHeight);
+  const thumbTop = (modalBody.scrollTop / maxScrollTop) * maxThumbTop;
+
+  modalScrollbarThumb.style.height = `${scrollbarThumbHeight}px`;
+  modalScrollbarThumb.style.transform = `translateY(${thumbTop}px)`;
+}
+
+function setScrollFromThumbPosition(nextThumbTop) {
+  const maxThumbTop = Math.max(0, modalScrollbar.clientHeight - scrollbarThumbHeight);
+  const clampedThumbTop = Math.min(maxThumbTop, Math.max(0, nextThumbTop));
+  const ratio = maxThumbTop === 0 ? 0 : clampedThumbTop / maxThumbTop;
+  modalBody.scrollTop = ratio * (modalBody.scrollHeight - modalBody.clientHeight);
+}
+
 function openModal(sectionKey) {
   const section = sections[sectionKey];
   if (!section) return;
 
   modalTitle.textContent = section.title;
   modalBody.innerHTML = renderTimeline(section.groups);
+  resetModalScroll();
   overlay.hidden = false;
   document.body.style.overflow = "hidden";
   setActiveButton(sectionKey);
+  requestAnimationFrame(() => {
+    resetModalScroll();
+    syncModalScrollbar();
+  });
 }
 
 function closeModal() {
+  resetModalScroll();
   overlay.hidden = true;
   document.body.style.overflow = "";
   setActiveButton("");
+  modalScrollbar.hidden = true;
 }
 
 menuButtons.forEach((button) => {
@@ -215,6 +257,45 @@ menuButtons.forEach((button) => {
 
 closeBtn.addEventListener("click", closeModal);
 backdrop.addEventListener("click", closeModal);
+modalBody.addEventListener("scroll", syncModalScrollbar);
+window.addEventListener("resize", syncModalScrollbar);
+
+modalScrollbarThumb.addEventListener("pointerdown", (event) => {
+  if (modalScrollbar.hidden) return;
+  draggingScrollbarThumb = true;
+  dragOffsetY = event.clientY - modalScrollbarThumb.getBoundingClientRect().top;
+  modalScrollbarThumb.setPointerCapture(event.pointerId);
+  event.preventDefault();
+});
+
+modalScrollbarThumb.addEventListener("pointermove", (event) => {
+  if (!draggingScrollbarThumb) return;
+  const trackTop = modalScrollbar.getBoundingClientRect().top;
+  setScrollFromThumbPosition(event.clientY - trackTop - dragOffsetY);
+});
+
+modalScrollbarThumb.addEventListener("pointerup", (event) => {
+  draggingScrollbarThumb = false;
+  if (modalScrollbarThumb.hasPointerCapture(event.pointerId)) {
+    modalScrollbarThumb.releasePointerCapture(event.pointerId);
+  }
+});
+
+modalScrollbarThumb.addEventListener("pointercancel", () => {
+  draggingScrollbarThumb = false;
+});
+
+modalScrollbar.addEventListener("pointerdown", (event) => {
+  if (event.target === modalScrollbarThumb || modalScrollbar.hidden) return;
+  const trackTop = modalScrollbar.getBoundingClientRect().top;
+  setScrollFromThumbPosition(event.clientY - trackTop - scrollbarThumbHeight / 2);
+  syncModalScrollbar();
+});
+
+if (window.ResizeObserver) {
+  const modalBodyResizeObserver = new ResizeObserver(syncModalScrollbar);
+  modalBodyResizeObserver.observe(modalBody);
+}
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !overlay.hidden) {
