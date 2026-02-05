@@ -29,6 +29,18 @@ body {
   overflow-x: hidden;
 }
 
+@supports (-webkit-touch-callout: none) {
+  html,
+  body {
+    background-color: var(--bg-1);
+  }
+
+  body {
+    min-height: 100svh;
+    min-height: -webkit-fill-available;
+  }
+}
+
 h1,
 h2,
 h3,
