@@ -179,12 +179,12 @@ button {
 }
 
 h1 {
-  margin: 0;
+  margin: 10px 0 0;
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   line-height: 0.86;
   letter-spacing: 0.05em;
   font-family: "Teko", "Rubik Mono One", "Black Ops One", "Orbitron", "Noto Sans KR", sans-serif;
-  transform: translateY(10px);
+  transform: none;
 }
 
 .subtitle {
@@ -196,12 +196,16 @@ h1 {
 }
 
 .email {
-  width: fit-content;
+  display: inline-block;
+  width: auto;
+  margin-right: 28px;
   color: var(--ink);
   font-size: 0.95rem;
-  text-decoration: none;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 1px;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--ink);
+  text-underline-offset: 2px;
+  border-bottom: none;
 }
 
 .email:hover {
@@ -667,7 +671,6 @@ h1 {
   border-radius: 10px;
   background: #ffe066;
   box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.46);
-  clip-path: polygon(var(--btn-slant) 0, 100% 0, calc(100% - var(--btn-slant)) 100%, 0 100%);
   padding: 5px 10px 4px;
   font-size: 0.82rem;
   font-weight: 700;
@@ -773,7 +776,7 @@ h1 {
 .role-box {
   display: inline;
   padding: 1px 6px;
-  border-radius: 0;
+  border-radius: 8px;
   border: none;
   background: #f4acd5;
   color: #111;
