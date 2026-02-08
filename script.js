@@ -272,6 +272,7 @@ const worksCategoryGroups = [
 const overlay = document.getElementById("modal-overlay");
 const backdrop = document.getElementById("overlay-backdrop");
 const closeBtn = document.getElementById("modal-close");
+const modalPrintOpenBtn = document.getElementById("modal-print-open");
 const modalTitle = document.getElementById("modal-title");
 const modalBody = document.getElementById("modal-body");
 const modalScrollbar = document.getElementById("modal-scrollbar");
@@ -280,6 +281,7 @@ const menuButtons = Array.from(document.querySelectorAll(".menu-btn"));
 let scrollbarThumbHeight = 36;
 let draggingScrollbarThumb = false;
 let dragOffsetY = 0;
+let activeSectionKey = "";
 
 function escapeHtml(text) {
   return text
@@ -289,6 +291,8 @@ function escapeHtml(text) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 }
+
+syncFullscreenToggleButton();
 
 function renderMarkedText(text) {
   const escaped = escapeHtml(text);
@@ -508,7 +512,7 @@ function renderDiscography(groups) {
   `;
 }
 
-function renderWorksCategories(groups) {
+function renderWorksCategories(groups, expandAllDetails = false) {
   return `
     <div class="works-categories">
       ${groups
@@ -549,7 +553,7 @@ function renderWorksCategories(groups) {
                               ? singleItemDisplayText
                                 ? `<div class="works-project-single">${renderCategoryItemPlain(singleItemDisplayText)}</div>`
                                 : ""
-                              : `<details class="works-project-dropdown">
+                              : `<details class="works-project-dropdown"${expandAllDetails ? " open" : ""}>
                                   <summary>
                                     <span>info</span>
                                     <span class="dropdown-arrow" aria-hidden="true">▾</span>
@@ -609,13 +613,59 @@ function setScrollFromThumbPosition(nextThumbTop) {
   modalBody.scrollTop = ratio * (modalBody.scrollHeight - modalBody.clientHeight);
 }
 
+function syncFullscreenToggleButton() {
+  const isWorks = activeSectionKey === "works";
+  if (modalPrintOpenBtn) {
+    modalPrintOpenBtn.hidden = !isWorks;
+  }
+}
+
+function renderWorksPrintPages(groups) {
+  return groups
+    .map((group) => {
+      const categoryMarkup = renderWorksCategories([group], true);
+      return `
+        <section class="print-page">
+          <header class="print-page-head">TSK Works</header>
+          <div class="print-page-body">${categoryMarkup}</div>
+        </section>
+      `;
+    })
+    .join("");
+}
+
+function openWorksPrintPage() {
+  if (activeSectionKey !== "works") return;
+
+  const markup = renderWorksPrintPages(worksCategoryGroups);
+  const payload = {
+    stamp: Date.now(),
+    markup,
+  };
+
+  try {
+    window.sessionStorage.setItem("tskWorksPrintPayload", JSON.stringify(payload));
+  } catch (_error) {
+    alert("인쇄 데이터를 준비하지 못했습니다. 다시 시도해주세요.");
+    return;
+  }
+
+  const url = new URL("works-print.html", window.location.href);
+  url.searchParams.set("stamp", String(payload.stamp));
+  const printWindow = window.open(url.toString(), "_blank");
+  if (!printWindow) {
+    alert("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해주세요.");
+  }
+}
+
 function openModal(sectionKey) {
   const section = sections[sectionKey];
   if (!section) return;
 
+  activeSectionKey = sectionKey;
   modalTitle.textContent = section.title;
   if (sectionKey === "works") {
-    modalBody.innerHTML = renderWorksCategories(worksCategoryGroups);
+    modalBody.innerHTML = renderWorksCategories(worksCategoryGroups, false);
   } else if (section.type === "discography") {
     modalBody.innerHTML = renderDiscography(section.groups);
   } else {
@@ -623,9 +673,12 @@ function openModal(sectionKey) {
     modalBody.innerHTML = renderTimeline(section.groups, showThumbnails);
   }
   resetModalScroll();
+  overlay.classList.toggle("is-works-section", sectionKey === "works");
   overlay.hidden = false;
   document.body.style.overflow = "hidden";
+  document.body.classList.add("modal-open");
   setActiveButton(sectionKey);
+  syncFullscreenToggleButton();
   requestAnimationFrame(() => {
     resetModalScroll();
     syncModalScrollbar();
@@ -635,9 +688,13 @@ function openModal(sectionKey) {
 function closeModal() {
   resetModalScroll();
   overlay.hidden = true;
+  overlay.classList.remove("is-works-section");
   document.body.style.overflow = "";
+  document.body.classList.remove("modal-open");
   setActiveButton("");
   modalScrollbar.hidden = true;
+  activeSectionKey = "";
+  syncFullscreenToggleButton();
 }
 
 menuButtons.forEach((button) => {
@@ -645,6 +702,10 @@ menuButtons.forEach((button) => {
     openModal(button.dataset.section);
   });
 });
+
+if (modalPrintOpenBtn) {
+  modalPrintOpenBtn.addEventListener("click", openWorksPrintPage);
+}
 
 closeBtn.addEventListener("click", closeModal);
 backdrop.addEventListener("click", closeModal);

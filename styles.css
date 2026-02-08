@@ -349,6 +349,11 @@ h1 {
   display: none;
 }
 
+.overlay.is-fullscreen {
+  padding: 0;
+  place-items: stretch;
+}
+
 .overlay-backdrop {
   position: absolute;
   inset: 0;
@@ -366,6 +371,32 @@ h1 {
   background: var(--wing);
   box-shadow: 5px 5px 0 rgba(143, 169, 162, 0.5);
   transform: none;
+}
+
+.overlay.is-fullscreen .overlay-backdrop {
+  background: rgba(16, 17, 21, 0.7);
+}
+
+.overlay.is-fullscreen .modal {
+  width: 100%;
+  height: 100dvh;
+  border-radius: 0;
+  overflow: auto;
+}
+
+.overlay.is-fullscreen .modal-head {
+  position: sticky;
+  top: 0;
+}
+
+.overlay.is-fullscreen .modal-body {
+  max-height: none;
+  overflow: visible;
+  padding: 18px 32px 28px;
+}
+
+.overlay.is-fullscreen .modal-scrollbar {
+  display: none;
 }
 
 .modal > * {
@@ -395,18 +426,67 @@ h1 {
   font-style: italic;
 }
 
-.close-btn {
+.modal-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-icon-btn {
   width: 36px;
   height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: 10px;
   background: #fff;
   color: var(--ink);
-  font-size: 1.2rem;
   line-height: 1;
   cursor: pointer;
   clip-path: polygon(var(--btn-slant) 0, 100% 0, calc(100% - var(--btn-slant)) 100%, 0 100%);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.modal-icon-glyph {
+  width: 16px;
+  height: 16px;
+  display: block;
+  pointer-events: none;
+}
+
+.overlay:not(.is-works-section) #modal-fullscreen-toggle,
+.overlay:not(.is-works-section) #modal-print-open {
+  display: none !important;
+}
+
+.modal-icon-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.52);
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  line-height: 0;
+  cursor: pointer;
+  clip-path: polygon(var(--btn-slant) 0, 100% 0, calc(100% - var(--btn-slant)) 100%, 0 100%);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.close-icon-glyph {
+  width: 18px;
+  height: 18px;
+  display: block;
+  pointer-events: none;
 }
 
 .close-btn:hover {
@@ -904,6 +984,88 @@ h1 {
 
   .modal-body {
     padding: calc(var(--modal-head-offset) + 12px) 22px 18px 14px;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 8mm 12mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body::before,
+  body::after,
+  .footer {
+    display: none !important;
+  }
+
+  body.modal-open .layout {
+    display: none !important;
+  }
+
+  .overlay {
+    position: static !important;
+    inset: auto !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .overlay[hidden] {
+    display: none !important;
+  }
+
+  .overlay-backdrop {
+    display: none !important;
+  }
+
+  .modal {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  .modal-head {
+    display: flex !important;
+    position: static !important;
+    min-height: var(--modal-head-offset) !important;
+    padding: 10px 16px 8px !important;
+    border-radius: 0 !important;
+    margin: 0 0 8mm !important;
+  }
+
+  .modal-head h2 {
+    margin: 0 !important;
+    font-size: 1.5rem !important;
+  }
+
+  .modal-head-actions,
+  .modal-scrollbar {
+    display: none !important;
+  }
+
+  .modal-body {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 10px 24px !important;
+  }
+
+  .works-category-group,
+  .works-project-card,
+  .track-item,
+  .discography-item,
+  .year-group {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-top: 4mm;
   }
 }
 

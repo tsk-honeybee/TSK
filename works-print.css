@@ -1,0 +1,258 @@
+:root {
+  --bg: #eeeff2;
+  --ink: #1f2531;
+  --panel: #ffd84d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Chakra Petch", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+.print-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 14px;
+  background: rgba(238, 239, 242, 0.95);
+  border-bottom: 1px solid rgba(31, 37, 49, 0.14);
+}
+
+.print-btn {
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 8px 12px;
+  font-family: "Orbitron", "Black Ops One", "Noto Sans KR", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#print-root {
+  width: min(1100px, calc(100% - 28px));
+  margin: 16px auto 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.print-page {
+  background: transparent;
+  break-before: page;
+  page-break-before: always;
+}
+
+.print-page:first-child {
+  break-before: auto;
+  page-break-before: auto;
+}
+
+.print-page-head {
+  margin: 0 0 12px;
+  padding: 10px 14px 8px;
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--ink);
+  font-family: "Orbitron", "Black Ops One", "Noto Sans KR", sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.print-page-body .works-categories {
+  display: block;
+}
+
+.print-page-body .works-category-group {
+  display: block;
+}
+
+.print-page-body .category-badge {
+  display: inline-flex;
+  margin: 0 0 8px;
+  padding: 6px 10px 5px;
+  border-radius: 10px;
+  background: #fff3ad;
+  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.4);
+  font-family: "Orbitron", "Black Ops One", "Noto Sans KR", sans-serif;
+  font-size: 1.02rem;
+  letter-spacing: 0.06em;
+}
+
+.print-page-body .works-project-list {
+  display: grid;
+  gap: 10px;
+}
+
+.print-page-body .works-project-card {
+  display: grid;
+  grid-template-columns: 186px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 2px 2px 0 rgba(27, 28, 34, 0.14);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.print-page-body .works-project-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #d0d1d5;
+}
+
+.print-page-body .works-project-thumb[src$="bluearchive-cover.jpg"] {
+  object-position: 24% center;
+}
+
+.print-page-body .works-project-body {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.print-page-body .works-project-title-row {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.print-page-body .works-project-title {
+  color: #1f2531;
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+
+.print-page-body .works-project-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.print-page-body .works-project-title-link:hover,
+.print-page-body .works-project-title-link:focus-visible {
+  text-decoration: none;
+}
+
+.print-page-body .works-project-period {
+  color: #454d61;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.print-page-body .works-project-single {
+  margin: 0;
+}
+
+.print-page-body .works-project-single .track-text,
+.print-page-body .works-project-single .track-link {
+  color: #4a5266;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.print-page-body .works-project-dropdown summary {
+  display: none;
+}
+
+.print-page-body .works-project-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.print-page-body .works-project-dropdown > .simple-list {
+  display: grid;
+}
+
+.print-page-body .simple-list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 7px;
+}
+
+.print-page-body .simple-list li {
+  color: #2d3341;
+  line-height: 1.5;
+  font-size: 0.94rem;
+}
+
+.print-page-body .track-link,
+.print-page-body .track-text {
+  color: #2d3341;
+  text-decoration: none;
+}
+
+.print-page-body .mark-box {
+  display: inline;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: #ffe066;
+  font-size: 0.92em;
+  font-weight: 700;
+}
+
+.print-page-body .role-box {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: #f4acd5;
+  color: #111;
+  font-size: 0.81em;
+  font-weight: 700;
+}
+
+.print-page-body .company-meta {
+  color: #495063;
+  font-size: 0.82em;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm 8mm 12mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background: #eeeff2;
+  }
+
+  .print-toolbar {
+    display: none !important;
+  }
+
+  #print-root {
+    width: 100%;
+    margin: 0;
+    gap: 0;
+  }
+
+  .print-page {
+    break-before: page;
+    page-break-before: always;
+    padding: 0 2mm;
+  }
+
+  .print-page:first-child {
+    break-before: auto;
+    page-break-before: auto;
+  }
+}
