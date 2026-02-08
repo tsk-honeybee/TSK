@@ -87,6 +87,7 @@ const sections = {
 };
 
 const youtubeLinks = {
+  "StarDream - ==Break It Out==": "https://youtu.be/d68gIXrr_yY?si=egouDQoQr9vcaF5e",
   "Blue Archive - ==Twinkle☆Magic== (Vocal Engineering) / © 2025 Nexon Games Co., Ltd.":
     "https://www.youtube.com/watch?v=TUDWnlyePv4",
   "HUZ - ==Glow==": "https://www.youtube.com/watch?v=P6V-IKg8f3M",
@@ -139,6 +140,7 @@ const thumbnailOverrides = {
 };
 
 const localYoutubeThumbnails = {
+  d68gIXrr_yY: "assets/thumbs/d68gIXrr_yY.jpg",
   TUDWnlyePv4: "assets/thumbs/TUDWnlyePv4.jpg",
   "P6V-IKg8f3M": "assets/thumbs/P6V-IKg8f3M.jpg",
   u5yBBZyqY5M: "assets/thumbs/u5yBBZyqY5M.jpg",
@@ -197,7 +199,7 @@ const worksCategoryGroups = [
       {
         title: "StarDream - Break It Out",
         period: "2026",
-        image: "assets/thumbs/stardream-break-it-out.jpg",
+        image: "assets/thumbs/d68gIXrr_yY.jpg",
         items: ["StarDream - ==Break It Out=="],
       },
       {
