@@ -68,6 +68,47 @@ body {
   font-style: italic;
   width: 100%;
   display: block;
+  margin-left: -4mm;
+  margin-right: -4mm;
+  width: calc(100% + 8mm);
+}
+
+.print-page-body {
+  padding: 0 4mm;
+}
+
+.print-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.print-table th,
+.print-table td {
+  padding: 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.print-table thead th {
+  padding: 0 4mm;
+}
+
+.print-table tbody td {
+  padding: 0 4mm;
+}
+
+.print-category-badge {
+  display: inline-flex;
+  margin: 0 0 8px;
+  padding: 6px 10px 5px;
+  border-radius: 10px;
+  background: #fff3ad;
+  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.4);
+  font-family: "Orbitron", "Black Ops One", "Noto Sans KR", sans-serif;
+  font-size: 1.02rem;
+  letter-spacing: 0.06em;
 }
 
 .print-page-body .works-categories {
@@ -219,13 +260,134 @@ body {
 
 .print-page-body .company-meta {
   color: #495063;
-  font-size: 0.82em;
+  font-size: 0.72rem;
+}
+
+.print-table .works-project-card {
+  display: grid;
+  grid-template-columns: 186px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 2px 2px 0 rgba(27, 28, 34, 0.14);
+}
+
+.print-table .works-project-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #d0d1d5;
+}
+
+.print-table .works-project-thumb[src$="bluearchive-cover.jpg"] {
+  object-position: 24% center;
+}
+
+.print-table .works-project-body {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.print-table .works-project-title-row {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.print-table .works-project-title {
+  color: #1f2531;
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+
+.print-table .works-project-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.print-table .works-project-title-link:hover,
+.print-table .works-project-title-link:focus-visible {
+  text-decoration: none;
+}
+
+.print-table .works-project-period {
+  color: #454d61;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.print-table .works-project-single {
+  margin: 0;
+}
+
+.print-table .works-project-single .track-text,
+.print-table .works-project-single .track-link {
+  color: #4a5266;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.print-table .works-project-dropdown summary {
+  display: none;
+}
+
+.print-table .works-project-dropdown > .simple-list {
+  display: grid;
+}
+
+.print-table .simple-list {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 7px;
+}
+
+.print-table .simple-list li {
+  color: #2d3341;
+  line-height: 1.5;
+  font-size: 0.94rem;
+}
+
+.print-table .track-link,
+.print-table .track-text {
+  color: #2d3341;
+  text-decoration: none;
+}
+
+.print-table .mark-box {
+  display: inline;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: #ffe066;
+  font-size: 0.92em;
+  font-weight: 700;
+}
+
+.print-table .role-box {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: #f4acd5;
+  color: #111;
+  font-size: 0.81em;
+  font-weight: 700;
+}
+
+.print-table .company-meta {
+  color: #495063;
+  font-size: 0.72rem;
 }
 
 @media print {
   @page {
     size: A4;
-    margin: 10mm 8mm 12mm;
+    margin: 0 8mm 12mm;
   }
 
   * {
@@ -242,14 +404,20 @@ body {
   }
 
   #print-root {
+    display: block;
     width: 100%;
     margin: 0;
     gap: 0;
   }
 
   .print-page {
-    break-before: page;
-    page-break-before: always;
+    display: block;
+    break-before: auto;
+    page-break-before: auto;
+    break-after: page;
+    page-break-after: always;
+    break-inside: avoid;
+    page-break-inside: avoid;
     margin-left: -2mm;
     margin-right: -2mm;
     width: calc(100% + 4mm);
@@ -258,17 +426,69 @@ body {
   }
 
   .print-page-head {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
+    margin-top: 0;
+    margin-left: -6mm;
+    margin-right: -6mm;
+    width: calc(100% + 12mm);
   }
 
   .print-page-body {
-    padding: 0 4mm;
+    padding: 0 6mm;
   }
 
-  .print-page:first-child {
-    break-before: auto;
-    page-break-before: auto;
+  .print-table thead th {
+    padding: 0 6mm;
+  }
+
+  .print-table tbody td {
+    padding: 0 6mm;
+  }
+
+  .print-table {
+    border-spacing: 0;
+  }
+
+  .print-table thead {
+    display: table-header-group;
+  }
+
+  .print-table tbody {
+    display: table-row-group;
+  }
+
+  .print-project-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-page-body .works-project-list {
+    display: block;
+  }
+
+  .print-page-body .works-project-card,
+  .print-table .works-project-card {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    break-inside: avoid-page;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
+
+  .print-page-body .works-project-thumb,
+  .print-table .works-project-thumb {
+    width: 186px;
+    flex: 0 0 186px;
+  }
+
+  .print-page-body .works-project-body,
+  .print-table .works-project-body {
+    flex: 1 1 auto;
+  }
+
+  .print-page:last-child {
+    break-after: auto;
+    page-break-after: auto;
   }
 }

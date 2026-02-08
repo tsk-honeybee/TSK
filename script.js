@@ -282,6 +282,9 @@ let scrollbarThumbHeight = 36;
 let draggingScrollbarThumb = false;
 let dragOffsetY = 0;
 let activeSectionKey = "";
+const WORKS_PRINT_STORAGE_KEY = "tskWorksPrintPayload";
+const WORKS_PRINT_LOCAL_PREFIX = "tskWorksPrintPayload:";
+const WORKS_PRINT_LATEST_KEY = "tskWorksPrintPayload:latest";
 
 function escapeHtml(text) {
   return text
@@ -308,7 +311,12 @@ function renderItemText(text) {
   const companyText = companyMatch ? companyMatch[1].trim() : "";
 
   const renderedMain = renderMarkedText(mainText);
-  if (!companyText) return renderedMain;
+  if (!companyText) {
+    if (/^©\s*/.test(mainText)) {
+      return `<span class="company-meta">${escapeHtml(mainText)}</span>`;
+    }
+    return renderedMain;
+  }
 
   return `${renderedMain} <span class="company-meta">/ ${escapeHtml(companyText)}</span>`;
 }
@@ -446,6 +454,56 @@ function renderCategoryItemList(items) {
   return items.map((item) => `<li>${renderCategoryItem(item)}</li>`).join("");
 }
 
+function renderWorksProjectCard(project, expandAllDetails = false) {
+  const { title, period, image, items, officialUrl } = project;
+  const singleItem = items.length === 1 ? items[0] : "";
+  const singleItemHref = singleItem ? youtubeLinks[singleItem] : "";
+  const titleHref = officialUrl || (items.length === 1 ? singleItemHref : "");
+  const singleItemDisplayText = singleItem ? getSingleItemDisplayText(singleItem, title) : "";
+  const titleMarkup = titleHref
+    ? `<a class="works-project-title works-project-title-link" href="${escapeHtml(
+        titleHref
+      )}" target="_blank" rel="noreferrer">${escapeHtml(title)}</a>`
+    : `<span class="works-project-title">${escapeHtml(title)}</span>`;
+
+  return `
+    <article class="works-project-card">
+      <img
+        class="works-project-thumb"
+        src="${escapeHtml(image)}"
+        alt="${escapeHtml(title)} thumbnail"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="works-project-body">
+        <p class="works-project-title-row">
+          ${titleMarkup}
+          <span class="works-project-period">(${escapeHtml(period)})</span>
+        </p>
+        ${
+          items.length === 1
+            ? singleItemDisplayText
+              ? `<div class="works-project-single">${renderCategoryItemPlain(singleItemDisplayText)}</div>`
+              : ""
+            : `<details class="works-project-dropdown"${expandAllDetails ? " open" : ""}>
+                <summary>
+                  <span>info</span>
+                  <span class="dropdown-arrow" aria-hidden="true">▾</span>
+                </summary>
+                <ul class="simple-list category-detail-list">
+                  ${renderCategoryItemList(items)}
+                </ul>
+              </details>`
+        }
+      </div>
+    </article>
+  `;
+}
+
+function renderWorksProjectCards(projects, expandAllDetails = false) {
+  return projects.map((project) => renderWorksProjectCard(project, expandAllDetails)).join("");
+}
+
 function getDiscographyTitle(item) {
   const markedMatch = item.match(/==(.+?)==/);
   if (markedMatch?.[1]) return markedMatch[1].trim();
@@ -521,53 +579,7 @@ function renderWorksCategories(groups, expandAllDetails = false) {
             <section class="works-category-group">
               <h3 class="category-badge">${escapeHtml(category)}</h3>
               <div class="works-project-list">
-                ${projects
-                  .map(({ title, period, image, items, officialUrl }) => {
-                    const singleItem = items.length === 1 ? items[0] : "";
-                    const singleItemHref = singleItem ? youtubeLinks[singleItem] : "";
-                    const titleHref = officialUrl || (items.length === 1 ? singleItemHref : "");
-                    const singleItemDisplayText = singleItem ? getSingleItemDisplayText(singleItem, title) : "";
-                    const titleMarkup =
-                      titleHref
-                        ? `<a class="works-project-title works-project-title-link" href="${escapeHtml(
-                            titleHref
-                          )}" target="_blank" rel="noreferrer">${escapeHtml(title)}</a>`
-                        : `<span class="works-project-title">${escapeHtml(title)}</span>`;
-
-                    return `
-                      <article class="works-project-card">
-                        <img
-                          class="works-project-thumb"
-                          src="${escapeHtml(image)}"
-                          alt="${escapeHtml(title)} thumbnail"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <div class="works-project-body">
-                          <p class="works-project-title-row">
-                            ${titleMarkup}
-                            <span class="works-project-period">(${escapeHtml(period)})</span>
-                          </p>
-                          ${
-                            items.length === 1
-                              ? singleItemDisplayText
-                                ? `<div class="works-project-single">${renderCategoryItemPlain(singleItemDisplayText)}</div>`
-                                : ""
-                              : `<details class="works-project-dropdown"${expandAllDetails ? " open" : ""}>
-                                  <summary>
-                                    <span>info</span>
-                                    <span class="dropdown-arrow" aria-hidden="true">▾</span>
-                                  </summary>
-                                  <ul class="simple-list category-detail-list">
-                                    ${renderCategoryItemList(items)}
-                                  </ul>
-                                </details>`
-                          }
-                        </div>
-                      </article>
-                    `;
-                  })
-                  .join("")}
+                ${renderWorksProjectCards(projects, expandAllDetails)}
               </div>
             </section>
           `
@@ -623,11 +635,30 @@ function syncFullscreenToggleButton() {
 function renderWorksPrintPages(groups) {
   return groups
     .map((group) => {
-      const categoryMarkup = renderWorksCategories([group], true);
+      const rows = group.projects
+        .map(
+          (project) => `
+            <tr class="print-project-row">
+              <td>${renderWorksProjectCard(project, true)}</td>
+            </tr>
+          `
+        )
+        .join("");
       return `
         <section class="print-page">
-          <header class="print-page-head">TSK Works</header>
-          <div class="print-page-body">${categoryMarkup}</div>
+          <table class="print-table" role="presentation">
+            <thead>
+              <tr>
+                <th>
+                  <div class="print-page-head">TSK Works</div>
+                  <h3 class="category-badge print-category-badge">${escapeHtml(group.category)}</h3>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
         </section>
       `;
     })
@@ -644,7 +675,9 @@ function openWorksPrintPage() {
   };
 
   try {
-    window.sessionStorage.setItem("tskWorksPrintPayload", JSON.stringify(payload));
+    window.sessionStorage.setItem(WORKS_PRINT_STORAGE_KEY, JSON.stringify(payload));
+    window.localStorage.setItem(`${WORKS_PRINT_LOCAL_PREFIX}${payload.stamp}`, payload.markup);
+    window.localStorage.setItem(WORKS_PRINT_LATEST_KEY, payload.markup);
   } catch (_error) {
     alert("인쇄 데이터를 준비하지 못했습니다. 다시 시도해주세요.");
     return;
@@ -657,6 +690,14 @@ function openWorksPrintPage() {
     alert("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해주세요.");
   }
 }
+
+window.__TSK_GET_WORKS_PRINT_PAYLOAD__ = function getWorksPrintPayloadForChild() {
+  const stamp = Date.now();
+  return {
+    stamp,
+    markup: renderWorksPrintPages(worksCategoryGroups),
+  };
+};
 
 function openModal(sectionKey) {
   const section = sections[sectionKey];
