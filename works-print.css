@@ -253,7 +253,7 @@ body {
     margin-left: -2mm;
     margin-right: -2mm;
     width: calc(100% + 4mm);
-    padding: 0 2mm;
+    padding: 0;
     background: var(--bg);
   }
 
@@ -261,6 +261,10 @@ body {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
+  }
+
+  .print-page-body {
+    padding: 0 4mm;
   }
 
   .print-page:first-child {
