@@ -245,7 +245,7 @@ const worksCategoryGroups = [
     ],
   },
   {
-    category: "Etc",
+    category: "etc.",
     projects: [
       {
         title: "SUPER SPEEDRUN MARATHON - Theme Music",
