@@ -66,6 +66,8 @@ body {
   font-size: 1.55rem;
   font-weight: 800;
   font-style: italic;
+  width: 100%;
+  display: block;
 }
 
 .print-page-body .works-categories {
@@ -248,7 +250,17 @@ body {
   .print-page {
     break-before: page;
     page-break-before: always;
+    margin-left: -2mm;
+    margin-right: -2mm;
+    width: calc(100% + 4mm);
     padding: 0 2mm;
+    background: var(--bg);
+  }
+
+  .print-page-head {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
 
   .print-page:first-child {
