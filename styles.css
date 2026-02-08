@@ -1,5 +1,5 @@
 :root {
-  --bg: #d4d4d8;
+  --bg: #dedee2;
   --ink: #1b1c22;
   --paper: #f3f3f5;
   --panel: #f6d964;
@@ -164,12 +164,13 @@ button {
 }
 
 .avatar {
-  width: 132px;
-  height: 132px;
-  border-radius: 10px;
-  object-fit: cover;
+  width: 156px;
+  height: 156px;
+  border-radius: 50%;
+  object-fit: contain;
   border: none;
-  box-shadow: 3px 3px 0 rgba(143, 169, 162, 0.5);
+  box-shadow: none;
+  background: #fbe48a;
 }
 
 .hero-text {
@@ -389,7 +390,9 @@ h1 {
 .modal-head h2 {
   margin: 0;
   color: var(--ink);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-style: italic;
 }
 
 .close-btn {
@@ -820,8 +823,8 @@ h1 {
   }
 
   .avatar {
-    width: 118px;
-    height: 118px;
+    width: 132px;
+    height: 132px;
   }
 }
 
