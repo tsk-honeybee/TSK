@@ -55,8 +55,12 @@ const sections = {
     type: "timeline",
     groups: [
       {
+        year: "2026",
+        items: ['MEGAREX "SPD GAR 005" - ==蛹 (feat. 花澤里都夢)=='],
+      },
+      {
         year: "2025",
-        items: ['MEGAREX "SPD GAR 004" - ==Lov3 Me!=='],
+        items: ['MEGAREX "SPD GAR 004" - ==Lov3 Me! (feat. mami)=='],
       },
       {
         year: "2023",
@@ -118,7 +122,10 @@ const youtubeLinks = {
   "Vocal Engineering / © 2022 774inc.": "https://www.youtube.com/watch?v=ZKQNG-Grck4",
   "Vocal Engineering": "https://youtu.be/1Gtwh_sPTXs?si=dwcMTD8HktYfLTeg",
   "メイビーME - ==めびみ☆== (Vocal Engineering)": "https://youtu.be/1Gtwh_sPTXs?si=dwcMTD8HktYfLTeg",
-  'MEGAREX "SPD GAR 004" - ==Lov3 Me!==': "https://www.youtube.com/watch?v=bRXzgf7Vjn4",
+  'MEGAREX "SPD GAR 005" - ==蛹 (feat. 花澤里都夢)==':
+    "https://youtu.be/bB_1BJabp40?si=17AGjfEz2sDy-WAv",
+  'MEGAREX "SPD GAR 004" - ==Lov3 Me! (feat. mami)==':
+    "https://www.youtube.com/watch?v=bRXzgf7Vjn4",
   'MARIGAN "Current-Voltage" - ==ロボットの歌 (feat. 夏色花梨)==': "https://www.youtube.com/watch?v=sAmdAVmIK_w",
   'MARIGAN "Current-Voltage" - ==Above==': "https://www.youtube.com/watch?v=9u6BpG2U8zY",
   'TERRAGAZER "TERRA\'N\'BASS" - ==Keep On==': "https://www.youtube.com/watch?v=ax8ib62juGM",
@@ -155,6 +162,7 @@ const localYoutubeThumbnails = {
   "Z-VzHs2VFeU": "assets/thumbs/Z-VzHs2VFeU.jpg",
   "ZKQNG-Grck4": "assets/thumbs/ZKQNG-Grck4.jpg",
   "1Gtwh_sPTXs": "assets/thumbs/1Gtwh_sPTXs.jpg",
+  bB_1BJabp40: "assets/thumbs/bB_1BJabp40.jpg",
   bRXzgf7Vjn4: "assets/thumbs/bRXzgf7Vjn4.jpg",
   sAmdAVmIK_w: "assets/thumbs/sAmdAVmIK_w.jpg",
   "9u6BpG2U8zY": "assets/thumbs/9u6BpG2U8zY.jpg",

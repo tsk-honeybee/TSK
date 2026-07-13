@@ -1,16 +1,16 @@
 :root {
-  --bg: #dedee2;
+  --bg: #d9dee5;
   --ink: #1b1c22;
-  --paper: #f3f3f5;
-  --panel: #f6d964;
-  --panel-soft: #f4e7a8;
+  --paper: #f8f8fa;
+  --panel: #f7da65;
+  --panel-soft: #f5e9ae;
   --wing: #eeeff2;
   --muted: #4a4d57;
-  --cyan: #8fa9a2;
-  --pink: #f07dbf;
-  --orange: #f1b13a;
+  --cyan: #91aaa4;
+  --pink: #ef82bc;
+  --orange: #f2b33f;
   --edge-rough: rgba(27, 28, 34, 0.42);
-  --shadow-hard: 5px 5px 0 rgba(143, 169, 162, 0.5);
+  --shadow-hard: 6px 6px 0 rgba(143, 169, 162, 0.48);
   --btn-slant: 2%;
 }
 
@@ -20,17 +20,22 @@
 
 html {
   min-height: 100%;
-  background: var(--bg);
+  background: #ffffff;
 }
 
 body {
   position: relative;
   isolation: isolate;
+  display: flow-root;
   margin: 0;
   min-height: 100vh;
+  background-color: var(--bg);
   color: var(--ink);
   font-family: "Chakra Petch", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   overflow-x: hidden;
+  background-image: linear-gradient(145deg, #ffffff 0%, #f3f5f7 38%, var(--bg) 100%);
+  background-size: auto;
+  background-attachment: fixed;
 }
 
 body::before,
@@ -41,7 +46,7 @@ body::after {
   pointer-events: none;
   border: none;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
-  opacity: 0.45;
+  display: none;
 }
 
 body::before {
@@ -69,12 +74,19 @@ button {
   font-family: "Orbitron", "Black Ops One", "Noto Sans KR", sans-serif;
 }
 
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 3px;
+}
+
 .bg-haze {
   position: fixed;
   z-index: -2;
   pointer-events: none;
   border: none;
-  opacity: 0.5;
+  display: none;
 }
 
 .haze-1 {
@@ -128,7 +140,7 @@ button {
   position: relative;
   overflow: hidden;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--panel);
   box-shadow: var(--shadow-hard);
 }
@@ -140,7 +152,7 @@ button {
   position: absolute;
   inset: 4px;
   border: 1px dashed var(--edge-rough);
-  border-radius: 6px;
+  border-radius: 8px;
   pointer-events: none;
 }
 
@@ -171,6 +183,12 @@ button {
   border: none;
   box-shadow: none;
   background: #fbe48a;
+  filter: drop-shadow(2px 3px 0 rgba(143, 169, 162, 0.34));
+  transition: transform 0.2s ease;
+}
+
+.hero:hover .avatar {
+  transform: translateY(-2px);
 }
 
 .hero-text {
@@ -186,6 +204,7 @@ h1 {
   letter-spacing: 0.05em;
   font-family: "Teko", "Rubik Mono One", "Black Ops One", "Orbitron", "Noto Sans KR", sans-serif;
   transform: none;
+  text-shadow: 2px 2px 0 rgba(240, 125, 191, 0.28);
 }
 
 .subtitle {
@@ -204,13 +223,14 @@ h1 {
   font-size: 0.95rem;
   text-decoration-line: underline;
   text-decoration-thickness: 2px;
-  text-decoration-color: var(--ink);
+  text-decoration-color: rgba(27, 28, 34, 0.72);
   text-underline-offset: 2px;
   border-bottom: none;
 }
 
 .email:hover {
   color: #000;
+  text-decoration-color: var(--pink);
 }
 
 .icon-only-row {
@@ -230,8 +250,9 @@ h1 {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  border: none;
+  border: 1px solid rgba(27, 28, 34, 0.18);
   background: var(--paper);
+  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.28);
   text-decoration: none;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
@@ -243,7 +264,7 @@ h1 {
 
 .icon-only-link:hover {
   transform: translateY(-2px);
-  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.6);
+  box-shadow: 3px 3px 0 rgba(143, 169, 162, 0.58);
 }
 
 .nav-title,
@@ -253,6 +274,7 @@ h1 {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .menu-list {
@@ -267,9 +289,10 @@ h1 {
   justify-content: flex-start;
   width: 100%;
   min-height: 68px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid rgba(27, 28, 34, 0.14);
+  border-radius: 10px;
   background: var(--paper);
+  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.24);
   color: var(--ink);
   padding: 14px 16px;
   text-align: left;
@@ -284,8 +307,8 @@ h1 {
 }
 
 .menu-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 rgba(143, 169, 162, 0.58);
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 rgba(143, 169, 162, 0.56);
 }
 
 .menu-btn.is-active {
@@ -318,9 +341,10 @@ h1 {
   color: var(--ink);
   text-decoration: none;
   padding: 8px 12px;
-  border: none;
+  border: 1px solid rgba(27, 28, 34, 0.14);
   border-radius: 10px;
   background: var(--paper);
+  box-shadow: 2px 2px 0 rgba(240, 125, 191, 0.2);
   font-size: 0.88rem;
   line-height: 1;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -332,8 +356,8 @@ h1 {
 }
 
 .icon-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0 rgba(240, 125, 191, 0.56);
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0 rgba(240, 125, 191, 0.5);
 }
 
 .overlay {
